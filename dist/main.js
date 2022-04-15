@@ -15,7 +15,7 @@
   \************************************/
 /***/ ((module) => {
 
-eval("class DOMNodeCollection {\n    constructor(htmlElements) {\n        this.htmlElements = htmlElements;\n    }\n\n    html (inner) {\n        if (inner) {\n            return inner.innerHTML;  \n        } else {\n            return this.htmlElements[0].innerHTML;\n        }\n    }\n}\n\nmodule.exports = DOMNodeCollection;\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
+eval("class DOMNodeCollection {\n    constructor(htmlElements) {\n        this.htmlElements = htmlElements;\n    }\n\n    html (text) {\n        if (text) {\n            this.htmlElements.forEach((element) => {\n                element.innerHTML = text\n            });  \n        } else {\n            return this.htmlElements[0].innerHTML;\n        }\n    }\n\n    empty () {\n       this.htmlElements.forEach((element) => {\n           element.innerHTML = \"\"\n       })\n    }\n\n    append (children) {\n        if (typeof (children) === 'object' && !(children instanceof(DOMNodeCollection))) {\n            children = $l('children')\n        }\n        if (typeof (children) === 'string') {\n            this.htmlElements.forEach((outerElement) => {\n                outerElement.innerHTML += children;\n            })\n        } else if (children instanceof(DOMNodeCollection)) {\n            this.htmlElements.forEach((outerElement) => {\n                children.htmlElements.forEach((child) => {\n                    outerElement.append(child.cloneNode(true))\n                })\n            })\n        }\n    }\n}\n\nmodule.exports = DOMNodeCollection;\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
 
 /***/ }),
 
