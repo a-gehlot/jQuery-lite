@@ -35,6 +35,61 @@ class DOMNodeCollection {
             })
         }
     }
+
+    attr (name, val) {
+        if (!val) {
+            return this.htmlElements[0].getAttribute(name);
+        } else {
+            this.htmlElements.forEach((element) => {
+                element.setAttribute(name, val);
+            })
+        }
+    }
+
+    addClass (name) {
+        this.htmlElements.forEach((element) => {
+            element.className = name;
+        })
+    }
+
+    removeClass (name) {
+        this.htmlElements.forEach((element) =>{
+            element.classList.remove(name);
+        })
+    }
+
+    children () {
+        let children = new DOMNodeCollection([]);
+        this.htmlElements.forEach((element) => {
+            children.htmlElements.push(element.children)
+        })
+        return children;
+    }
+
+    parent () {
+        let parents = [];
+        this.htmlElements.forEach((element) => {
+            if (!element.parentNode.visited) {
+                parents.push(element.parentNode);
+                element.parentNode.visited = true;
+            }
+        })
+        return new DOMNodeCollection(parents);
+    }
+
+    find(selector) {
+        let items = []
+        this.htmlElements.forEach((element) => {
+            items.push(element.querySelectorAll(selector))
+        });
+        return new DOMNodeCollection(items);
+    }
+
+    remove () {
+        this.htmlElements.forEach((element) => {
+            element.remove();
+        })
+    }
 }
 
 module.exports = DOMNodeCollection;
