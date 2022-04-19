@@ -90,6 +90,19 @@ class DOMNodeCollection {
             element.remove();
         })
     }
+
+    on (type, callback) {
+     this.htmlElements.forEach((element) => {
+        element.addEventListener(type, callback);
+        element[`${type}`] = callback;
+     })   
+    }
+
+    off (type) {
+        this.htmlElements.forEach((element) => {
+            element.removeEventListener(type, element[`${type}`])
+        })
+    }
 }
 
 module.exports = DOMNodeCollection;
