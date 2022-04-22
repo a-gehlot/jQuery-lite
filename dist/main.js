@@ -25,7 +25,7 @@ eval("class DOMNodeCollection {\n    constructor(htmlElements) {\n        this.h
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const DOMNodeCollection = __webpack_require__(/*! ./dom_node_collection */ \"./src/dom_node_collection.js\")\n\nwindow.$l = function(argument) {\n    if (typeof(argument) === 'string') {\n        let nodes = document.querySelectorAll(argument);\n        let nodeArray = Array.from(nodes)\n        return new DOMNodeCollection(nodeArray)\n    } else if (typeof(argument) === 'HTMLElement') {\n        return new DOMNodeCollection([argument]);\n    }\n}\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const DOMNodeCollection = __webpack_require__(/*! ./dom_node_collection */ \"./src/dom_node_collection.js\")\n\nconst _docReadyCallbacks = []\nvar _docReady = false;\n\nwindow.$l = function(argument) {\n    switch(typeof argument) {\n        case 'function':\n            return registerDocReadyCallback(argument);\n        case 'string':\n            let nodes = document.querySelectorAll(argument);\n            let nodeArray = Array.from(nodes);\n            return new DOMNodeCollection(nodeArray);\n        case 'HTMLElement':\n            return new DOMNodeCollection([argument]);\n    }\n\n}\n\nregisterDocReadyCallback = (func) => {\n    if (!_docReady) {\n        _docReadyCallbacks.push(func);\n    } else {\n        func();\n    }\n};\n\n\ndocument.addEventListener('DOMContentLoaded', () => {\n    _docReady = true;\n    _docReadyCallbacks.forEach(func => func());\n});\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
